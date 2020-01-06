@@ -8,7 +8,7 @@ public class SimulatedAnnealing extends Algorithm {
 
     float t = 1.0f;
     float alpha = 0.99f;
-    float tn = 0.001f;
+//    float tn = 0.001f;
     float t0 = 1.0f;
     float n = 50;
 
@@ -44,7 +44,7 @@ public class SimulatedAnnealing extends Algorithm {
                     tempState = neighbours.get(random);
                     break;
                 }
-                float temperature = getTemperature(currentState.distanceFromGoal - neighbours.get(random).distanceFromGoal, 2, counter);
+                float temperature = getTemperature(currentState.distanceFromGoal - neighbours.get(random).distanceFromGoal, 0, counter);
                 float rand = (float) Math.random();
                 if (temperature > rand) {
                     tempState = neighbours.get(random);
@@ -66,9 +66,9 @@ public class SimulatedAnnealing extends Algorithm {
     @Override
     public void getInfo(Problem.State state) {
         problem.showInfo(state);
-        System.out.println("Counter: " + counter);
-        System.out.println("Visited Nodes: " + visitedNodesNo);
-        System.out.println("Extended Nodes: " + expandedNodesNo);
+//        System.out.println("Counter: " + counter);
+//        System.out.println("Visited Nodes: " + visitedNodesNo);
+//        System.out.println("Extended Nodes: " + expandedNodesNo);
     }
 
     @Override
@@ -80,13 +80,20 @@ public class SimulatedAnnealing extends Algorithm {
         float temp = (float) Math.exp(distance / t);
         switch (i) {
             case 0:
-                t *= alpha;
+                alpha = 0.85f;
+                t = (float) (t0 * Math.pow(alpha, counter));
                 break;
             case 1:
-                t = t0 - (counter * ((t0 - tn) / n));
+                alpha = 2.0f;
+                t = (float) (t0 / (1.0f + alpha * Math.log(1 + counter)));
                 break;
             case 2:
-                t = (float) (t0 * Math.pow((tn / t0), (counter / n)));
+                alpha = 1.0f;
+                t = t0 / (1 + alpha * counter);
+                break;
+            case 3:
+                alpha = 1.0f;
+                t = t0 / (1 + alpha * counter * counter);
                 break;
         }
         return temp;

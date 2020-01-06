@@ -1,6 +1,6 @@
 package Algorithms;
 
-import Problems.GraphColoringProblem;
+import Problems.MapColoringProblem;
 import Problems.Problem;
 import org.knowm.xchart.QuickChart;
 import org.knowm.xchart.SwingWrapper;
@@ -8,14 +8,11 @@ import org.knowm.xchart.internal.chartpart.Chart;
 
 import java.util.ArrayList;
 
-/**
- * Created by eisak on 2018-12-28.
- */
 public class Genetic extends Algorithm {
 
-    public ArrayList<GraphColoringProblem.State> population;
-    public ArrayList<GraphColoringProblem.State> newGen;
-    public ArrayList<GraphColoringProblem.State> parents;
+    public ArrayList<MapColoringProblem.State> population;
+    public ArrayList<MapColoringProblem.State> newGen;
+    public ArrayList<MapColoringProblem.State> parents;
     public ArrayList<Float> best;
     public ArrayList<Float> worst;
     public ArrayList<Float> average;
@@ -37,20 +34,16 @@ public class Genetic extends Algorithm {
     public void run() {
         createPopulation();
         getInformation();
-        //test1();
-        // AddtoBestAndWorst();
-        System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
         for (int i = 0; i < nofGenerations; i++) {
             parentSelection();
             nexGeneration();
             mutation();
             population = newGen;
             getInformation();
-            System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+            System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
             AddtoBestAndWorst();
         }
         charts();
-        // test1();
     }
 
     @Override
@@ -65,12 +58,12 @@ public class Genetic extends Algorithm {
 
     public void getInformation() {
         for (int i = 0; i < pSize; i++) {
-            GraphColoringProblem.State a1 = (GraphColoringProblem.State) population.get(i);
+            MapColoringProblem.State a1 = (MapColoringProblem.State) population.get(i);
             ArrayList<String> arr = a1.colors;
             System.out.println(arr);
             //    System.out.println(fitnessFunction(population.get(i)));
             //    System.out.println(test(population.get(i)));
-            test1(population.get(i));
+//            test1(population.get(i));
         }
     }
 
@@ -82,17 +75,17 @@ public class Genetic extends Algorithm {
 
     public void createPopulation() {
         for (int i = 0; i < pSize; i++) {
-            GraphColoringProblem.State temp = (GraphColoringProblem.State) problem.initialState();
+            MapColoringProblem.State temp = (MapColoringProblem.State) problem.initialState();
             problem.update(temp);
             population.add(temp);
         }
     }
 
     public int fitnessFunction(Problem.State state) {
-        GraphColoringProblem.State s = (GraphColoringProblem.State) state;
+        MapColoringProblem.State s = (MapColoringProblem.State) state;
         int result = 0;
-        for (int i = 0; i < 11; i++) {
-            for (int j = 0; j < 11; j++) {
+        for (int i = 0; i < 31; i++) {
+            for (int j = 0; j < 31; j++) {
                 if (i != j) {
                     if (!s.colors.get(i).equals(s.colors.get(j)))
                         result++;
@@ -101,21 +94,6 @@ public class Genetic extends Algorithm {
         }
         return (result) / 20;
 
-    }
-
-
-    public int test(Problem.State state) {
-        GraphColoringProblem.State s = (GraphColoringProblem.State) state;
-        int result = 0;
-        for (int i = 0; i < 11; i++) {
-            for (int j = 0; j < 11; j++) {
-                if (i != j) {
-                    if (!s.colors.get(i).equals(s.colors.get(j)))
-                        result++;
-                }
-            }
-        }
-        return (result);
     }
 
     public void AddtoBestAndWorst() {
@@ -173,10 +151,10 @@ public class Genetic extends Algorithm {
 
     }
 
-    public void test1(Problem.State state) {
-        GraphColoringProblem.State s = (GraphColoringProblem.State) state;
-        System.out.println(s.distanceFromGoal);
-    }
+//    public void test1(Problem.State state) {
+//        GraphColoringProblem.State s = (GraphColoringProblem.State) state;
+//        System.out.println(s.distanceFromGoal);
+//    }
 
     public void parentSelection() {
         parents = new ArrayList<>();
@@ -209,32 +187,52 @@ public class Genetic extends Algorithm {
 
     }
 
-    public GraphColoringProblem.State crossover(GraphColoringProblem.State s1, GraphColoringProblem.State s2) {
-        GraphColoringProblem.State s11 = (GraphColoringProblem.State) s1;
-        GraphColoringProblem.State s12 = (GraphColoringProblem.State) s2;
+    public MapColoringProblem.State crossover(MapColoringProblem.State s1, MapColoringProblem.State s2) {
+        MapColoringProblem.State s11 = (MapColoringProblem.State) s1;
+        MapColoringProblem.State s12 = (MapColoringProblem.State) s2;
         ArrayList<String> arr = new ArrayList<>();
         arr.add(s11.colors.get(0));
         arr.add(s11.colors.get(1));
         arr.add(s11.colors.get(2));
         arr.add(s11.colors.get(4));
         arr.add(s11.colors.get(7));
+        arr.add(s11.colors.get(11));
+        arr.add(s11.colors.get(12));
+        arr.add(s11.colors.get(13));
+        arr.add(s11.colors.get(20));
+        arr.add(s11.colors.get(21));
+        arr.add(s11.colors.get(22));
+        arr.add(s11.colors.get(23));
+        arr.add(s11.colors.get(24));
+        arr.add(s11.colors.get(25));
         arr.add(s12.colors.get(3));
         arr.add(s12.colors.get(5));
         arr.add(s12.colors.get(6));
         arr.add(s12.colors.get(8));
         arr.add(s12.colors.get(9));
         arr.add(s12.colors.get(10));
-        GraphColoringProblem.State s3 = new GraphColoringProblem.State(arr, null);
+        arr.add(s12.colors.get(14));
+        arr.add(s12.colors.get(15));
+        arr.add(s12.colors.get(16));
+        arr.add(s12.colors.get(17));
+        arr.add(s12.colors.get(18));
+        arr.add(s12.colors.get(19));
+        arr.add(s12.colors.get(26));
+        arr.add(s12.colors.get(27));
+        arr.add(s12.colors.get(28));
+        arr.add(s12.colors.get(29));
+        arr.add(s12.colors.get(30));
+        MapColoringProblem.State s3 = new MapColoringProblem.State(arr, null);
         problem.update(s3);
         return s3;
     }
 
     public void mutation() {
-        int counter = (int) Math.round(pSize * 11 * mRate);
+        int counter = (int) Math.round(pSize * 31 * mRate);
         for (int i = 0; i < counter; i++) {
             int a = (int) (Math.random() * pSize);
-            int b = (int) (Math.random() * 11);
-            GraphColoringProblem.State a1 = (GraphColoringProblem.State) newGen.get(a);
+            int b = (int) (Math.random() * 31);
+            MapColoringProblem.State a1 = (MapColoringProblem.State) newGen.get(a);
             ArrayList<String> arr = a1.colors;
             String colors = "red";
             int color = (int) (Math.random() * 3);
