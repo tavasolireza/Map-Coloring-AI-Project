@@ -1,3 +1,4 @@
+import Algorithms.SimulatedAnnealing;
 import Problems.MapColoringProblem;
 
 public class main {
@@ -6,7 +7,7 @@ public class main {
 
         MapColoringProblem gcp = new MapColoringProblem();
 
-//        new SimulatedAnnealing(gcp);
+        new SimulatedAnnealing(gcp);
 //        new Genetic(gcp);
 //        Genetic g = new Genetic(gcp);
 //        for (int i = 0; i < g.pSize; i++) {

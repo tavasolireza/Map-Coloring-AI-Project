@@ -16,10 +16,10 @@ public class Genetic extends Algorithm {
     public ArrayList<Float> best;
     public ArrayList<Float> worst;
     public ArrayList<Float> average;
-    public int pSize = 100;
+    public int pSize = 10;
     public int k = 5;
-    public double mRate = 0.01;
-    public int nofGenerations = 100;
+    public double mRate = 0.05;
+    public int nofGenerations = 50;
 
     public Genetic(Problem problem) {
         super(problem);
